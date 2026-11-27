@@ -13,6 +13,13 @@ proxies:
   - name: Tailscale
     type: tailscale
     hostname: iphone-stash
+    # 延迟测试：直连 Sunshine 主机的 HTTP 端口(47989)，Stash 代理列表里就能看到真实延迟
+    # 直连一般 20-40ms；若显示 100ms+ 基本就是走了 DERP 中继
+    benchmark-url: http://100.124.98.100:47989
+    benchmark-timeout: 5
+    # direct-peer-udp 只在配置了 dialer-proxy 时才生效；本配置不设 dialer-proxy，
+    # 让 Tailscale 直接用本地网络打洞。以后若给这个节点加 dialer-proxy，记得同时打开它。
+    # direct-peer-udp: true
 
 rule-providers:
   rp-Telegram:
@@ -522,6 +529,7 @@ proxy-groups: #!replace
 
 rules: #!replace
   # 1. Tailscale：Tailnet 域名及 IPv4/IPv6 地址走专用选择组
+  #    （Stash iOS 3.6+ 会自动接管 MagicDNS 与 100.64/10，这几条是低版本/兜底用）
   - DOMAIN-SUFFIX,ts.net,Tailscale访问
   - IP-CIDR,100.64.0.0/10,Tailscale访问,no-resolve
   - IP-CIDR6,fd7a:115c:a1e0::/48,Tailscale访问,no-resolve
