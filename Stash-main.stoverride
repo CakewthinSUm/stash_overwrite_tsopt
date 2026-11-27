@@ -1,12 +1,12 @@
 # ============================================================
 #  小火箭逻辑完整迁移 · Stash 覆写 (.stoverride)
 #  基础配置：机场官方 WestData Clash 订阅（提供 63 节点）
-#  34 组结构 + 24 个精选规则集（blackmatrix7 Clash 版，behavior: classical）
-#  Stash 5.0.0；规则集全部实测 HTTP 200
+#  36 组结构 + 24 个精选规则集（blackmatrix7 Clash 版，behavior: classical）
+#  Stash 5.1 beta+（smart 组为 5.1 新增，5.0 及以下会加载失败）；规则集全部实测 HTTP 200
 # ============================================================
 name: 小火箭逻辑迁移
 desc: |-
-  完整搬小火箭 34 组分流逻辑；地区组 url-test 自动测速
+  完整搬小火箭 34 组分流逻辑；地区组 smart 智能选路（需 Stash 5.1 beta+）
   应用组默认手动选择；精选规则集控制内存占用
 
 proxies:
@@ -149,60 +149,45 @@ proxy-groups: #!replace
       - DIRECT
   - name: 香港节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇭🇰|Hong Kong|HongKong|HK|香港'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇭🇰|Hong Kong|HongKong|香港|\bHK'
   - name: 台湾节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇨🇳|Taiwan|Taipei|TW|台湾'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇹🇼|Taiwan|Taipei|台湾|\bTW'
   - name: 新加坡节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇸🇬|Singapore|SG|新加坡'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇸🇬|Singapore|新加坡|\bSG'
   - name: 日本节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇯🇵|Japan|JP|日本'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇯🇵|Japan|日本|\bJP'
   - name: 美国节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇺🇸|United States|USA|US|美国'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇺🇸|United States|美国|\bUS'
   - name: 韩国节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Korea.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇰🇷|Korea|KR|韩国'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇰🇷|Korea|韩国|\bKR'
+  # 兜住没被上面地区组匹配到的节点；顺带排除 Tailscale 节点和机场的 info 假节点
+  - name: 其他地区
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    type: smart
+    include-all: true
+    exclude-filter: '🇭🇰|Hong Kong|HongKong|香港|\bHK|🇹🇼|Taiwan|Taipei|台湾|\bTW|🇸🇬|Singapore|新加坡|\bSG|🇯🇵|Japan|日本|\bJP|🇺🇸|United States|美国|\bUS|🇰🇷|Korea|韩国|\bKR|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
   - name: 自动选择
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png
-    type: url-test
+    type: smart
     include-all: true
-    filter: '🇭🇰|🇨🇳|🇸🇬|🇯🇵|🇺🇸|🇰🇷'
-    url: http://www.gstatic.com/generate_204
-    interval: 600
-    tolerance: 100
+    filter: '🇭🇰|🇹🇼|🇸🇬|🇯🇵|🇺🇸|🇰🇷'
   - name: 手动选择
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
     type: select
@@ -213,6 +198,7 @@ proxy-groups: #!replace
       - 日本节点
       - 台湾节点
       - 韩国节点
+      - 其他地区
       - 自动选择
       - DIRECT
   - name: 即时通讯
@@ -514,6 +500,7 @@ proxy-groups: #!replace
       - 日本节点
       - 台湾节点
       - 韩国节点
+      - 其他地区
       - 自动选择
       - DIRECT
   - name: 苹果推送
