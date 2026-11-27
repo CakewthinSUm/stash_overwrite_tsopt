@@ -10,12 +10,9 @@ desc: |-
   应用组默认手动选择；精选规则集控制内存占用
 
 proxies:
-  - name: TS-内网
+  - name: Tailscale
     type: tailscale
     hostname: iphone-stash
-    direct-peer-udp: true
-    # dialer-proxy: 香港节点   # 测试：Tailscale 出站拨号不绕香港
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
 
 rule-providers:
   rp-Telegram:
@@ -140,12 +137,11 @@ rule-providers:
     interval: 86400
 
 proxy-groups: #!replace
-  # 专门引用 Tailscale 节点：不加进组的话代理列表里不会出现它（社区踩坑）
-  - name: Tailscale内网
+  # Tailscale 专用选择组：可选择走 Tailnet 或直连
+  - name: Tailscale访问
     type: select
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
     proxies:
-      - TS-内网
+      - Tailscale
       - DIRECT
   - name: 香港节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
@@ -531,11 +527,10 @@ proxy-groups: #!replace
       - DIRECT
 
 rules: #!replace
-  # 1. Tailscale（压过机场 100.64/10 DIRECT）
-  - IP-CIDR,100.64.0.0/10,TS-内网,no-resolve
-  - IP-CIDR6,fd7a:115c:a1e0::/48,TS-内网,no-resolve
-  - DOMAIN-SUFFIX,ts.net,TS-内网
-  - DST-PORT,41641,DIRECT
+  # 1. Tailscale：Tailnet 域名及 IPv4/IPv6 地址走专用选择组
+  - DOMAIN-SUFFIX,ts.net,Tailscale访问
+  - IP-CIDR,100.64.0.0/10,Tailscale访问,no-resolve
+  - IP-CIDR6,fd7a:115c:a1e0::/48,Tailscale访问,no-resolve
   # 2. APNs（压过机场 push.apple.com → Proxies）
   - DOMAIN-SUFFIX,push.apple.com,苹果推送
   - DOMAIN-SUFFIX,push.apple.com.cn,苹果推送
