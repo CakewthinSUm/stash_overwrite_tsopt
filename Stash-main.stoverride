@@ -179,7 +179,7 @@ proxy-groups: #!replace
     filter: '🇰🇷|Korea|韩国|\bKR'
   # 兜住没被上面地区组匹配到的节点；顺带排除 Tailscale 节点和机场的 info 假节点
   - name: 其他地区
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png
     type: smart
     include-all: true
     exclude-filter: '🇭🇰|Hong Kong|HongKong|香港|\bHK|🇹🇼|Taiwan|Taipei|台湾|\bTW|🇸🇬|Singapore|新加坡|\bSG|🇯🇵|Japan|日本|\bJP|🇺🇸|United States|美国|\bUS|🇰🇷|Korea|韩国|\bKR|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
@@ -214,7 +214,7 @@ proxy-groups: #!replace
       - 自动选择
       - DIRECT
   - name: 社交媒体
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
     type: select
     proxies:
       - 手动选择
