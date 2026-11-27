@@ -1,7 +1,7 @@
 # ============================================================
 #  小火箭逻辑完整迁移 · Stash 覆写 (.stoverride)
-#  基础配置：机场官方 WestData Clash 订阅（提供 63 节点）
-#  36 组结构 + 24 个精选规则集（blackmatrix7 Clash 版，behavior: classical）
+#  基础配置：机场 Clash 订阅（提供 63 节点）
+#  36 组结构 + 25 个精选规则集（Apple 部分用 Shadowrocket-Rules 的 Apple.list + blackmatrix7 域名集）
 #  Stash 5.1 beta+（smart 组为 5.1 新增，5.0 及以下会加载失败）；规则集全部实测 HTTP 200
 # ============================================================
 name: 小火箭逻辑迁移
@@ -110,10 +110,17 @@ rule-providers:
     format: yaml
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
     interval: 86400
+  # 苹果服务：引用 CakewthinSUm/Shadowrocket-Rules 的 Apple.list（含 USER-AGENT / IP 段，Stash 支持）
   rp-Apple:
     behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/CakewthinSUm/Shadowrocket-Rules/refs/heads/main/Apple.list
+    interval: 86400
+  # 域名部分仍用 blackmatrix7 Apple_Domain.yaml（Clash domain 格式，1550 条）
+  rp-AppleDomain:
+    behavior: domain
     format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple.yaml
+    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Domain.yaml
     interval: 86400
   rp-Microsoft:
     behavior: classical
@@ -518,7 +525,7 @@ rules: #!replace
   - DOMAIN-SUFFIX,ts.net,Tailscale访问
   - IP-CIDR,100.64.0.0/10,Tailscale访问,no-resolve
   - IP-CIDR6,fd7a:115c:a1e0::/48,Tailscale访问,no-resolve
-  # 2. APNs（压过机场 push.apple.com → Proxies）
+  # 2. APNs（按 Stash 官方 FAQ：推送走代理；域名 + 关键词 + IP 段）
   - DOMAIN-SUFFIX,push.apple.com,苹果推送
   - DOMAIN-SUFFIX,push.apple.com.cn,苹果推送
   - DOMAIN-KEYWORD,courier.push,苹果推送
@@ -535,13 +542,11 @@ rules: #!replace
   - IP-CIDR6,2403:300:a42::/48,苹果推送,no-resolve
   - IP-CIDR6,2403:300:a51::/48,苹果推送,no-resolve
   - IP-CIDR6,2a01:b740:a42::/48,苹果推送,no-resolve
-  # 3. 直连：自建/UU/iCloud
+  # 3. 直连：自建/UU
   - DOMAIN-SUFFIX,mytunnel.org,DIRECT
   - DOMAIN-SUFFIX,uu.163.com,DIRECT
   - DOMAIN-SUFFIX,netease.com,DIRECT
   - DST-PORT,3478,DIRECT
-  - DOMAIN-SUFFIX,icloud.com,DIRECT
-  - DOMAIN-SUFFIX,icloud.com.cn,DIRECT
   # 4. 应用分流规则集（精选）
   - RULE-SET,rp-Telegram,即时通讯
   - RULE-SET,rp-Twitter,社交媒体
@@ -555,6 +560,7 @@ rules: #!replace
   - RULE-SET,rp-AppleTV,AppleTV+
   - RULE-SET,rp-PayPal,PayPal
   - RULE-SET,rp-Apple,苹果服务
+  - RULE-SET,rp-AppleDomain,苹果服务
   - RULE-SET,rp-Microsoft,微软服务
   - RULE-SET,rp-Google,谷歌服务
   - RULE-SET,rp-TikTok,TikTok
