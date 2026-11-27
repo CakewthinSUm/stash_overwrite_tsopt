@@ -553,14 +553,8 @@ rules: #!replace
   # 3. 直连：自建/UU
   - DOMAIN-SUFFIX,mytunnel.org,DIRECT
   - DOMAIN-SUFFIX,uu.163.com,DIRECT
-  - DOMAIN-SUFFIX,uuyc.163.com,DIRECT
   - DOMAIN-SUFFIX,netease.com,DIRECT
-  # 打洞相关：STUN 探测与 UDP 3478 必须直连，否则 STUN 回显的是机场节点出口地址，
-  # UU 会把节点地址当成自己的公网地址告诉对端，对端打洞包永远回不到手机上。
-  # 不写死端口，用 PROTOCOL,STUN 覆盖 UU 实际使用的全部 STUN 端口。
-  # 不加 no-track，方便在「连接」页核对命中情况。
-  - PROTOCOL,STUN,DIRECT
-  - AND,((NETWORK,udp),(DST-PORT,3478)),DIRECT
+  - DST-PORT,3478,DIRECT
   # 4. 应用分流规则集（精选）
   - RULE-SET,rp-Telegram,即时通讯
   - RULE-SET,rp-Twitter,社交媒体
