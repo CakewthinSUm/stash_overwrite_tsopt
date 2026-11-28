@@ -22,135 +22,13 @@ proxies:
     # direct-peer-udp: true
 
 rule-providers: #!replace
-  rp-Telegram:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Telegram/Telegram.yaml
-    interval: 86400
-  rp-Twitter:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Twitter/Twitter.yaml
-    interval: 86400
-  rp-Facebook:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Facebook/Facebook.yaml
-    interval: 86400
-  rp-Instagram:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Instagram/Instagram.yaml
-    interval: 86400
-  rp-GitHub:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/GitHub/GitHub.yaml
-    interval: 86400
-  rp-OpenAI:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/OpenAI/OpenAI.yaml
-    interval: 86400
-  rp-Gemini:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Gemini/Gemini.yaml
-    interval: 86400
-  rp-Claude:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Claude/Claude.yaml
-    interval: 86400
-  rp-YouTube:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/YouTube/YouTube.yaml
-    interval: 86400
-  rp-Netflix:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Netflix/Netflix.yaml
-    interval: 86400
-  rp-Disney:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Disney/Disney.yaml
-    interval: 86400
-  rp-HBO:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/HBO/HBO.yaml
-    interval: 86400
-  rp-PrimeVideo:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PrimeVideo/PrimeVideo.yaml
-    interval: 86400
-  rp-AppleTV:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/AppleTV/AppleTV.yaml
-    interval: 86400
-  rp-Spotify:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Spotify/Spotify.yaml
-    interval: 86400
-  rp-Bahamut:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Bahamut/Bahamut.yaml
-    interval: 86400
-  rp-TikTok:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/TikTok/TikTok.yaml
-    interval: 86400
-  rp-PayPal:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/PayPal/PayPal.yaml
-    interval: 86400
-  rp-Speedtest:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
-    interval: 86400
-  # 苹果服务：引用上游 LingJingMaster/Shadowrocket-Rules 的 Apple.list（含 USER-AGENT / IP 段，Stash 支持）
+  # 苹果 USER-AGENT / IP 补充（上游活跃维护）
   rp-Apple:
     behavior: classical
     format: text
     url: https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main/Apple.list
     interval: 86400
-  # 域名部分仍用 blackmatrix7 Apple_Domain.yaml（Clash domain 格式，1550 条）
-  rp-AppleDomain:
-    behavior: domain
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Apple/Apple_Domain.yaml
-    interval: 86400
-  rp-Microsoft:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Microsoft/Microsoft.yaml
-    interval: 86400
-  rp-Google:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Google/Google.yaml
-    interval: 86400
-  rp-SteamCN:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/SteamCN/SteamCN.yaml
-    interval: 86400
-  rp-Emby:
-    behavior: classical
-    format: yaml
-    url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Emby/Emby.yaml
-    interval: 86400
-  # Steam 下载 CDN：直接引用 Aethersailor/Custom_OpenClash_Rules 的 .list 源，
-  # 用 classical+text 兼容 Stash（官方文档明确支持该组合）；必须在 Steam/游戏平台规则之前命中。
+  # Steam 下载 CDN 直连（上游活跃维护），必须优先于 steam 规则
   rp-SteamCDN:
     behavior: classical
     format: text
@@ -160,6 +38,7 @@ rule-providers: #!replace
 proxy-groups: #!replace
   # Tailscale 专用选择组：可选择走 Tailnet 或直连
   - name: Tailscale访问
+    icon: https://cdn.simpleicons.org/tailscale/34495E
     type: select
     proxies:
       - Tailscale
@@ -206,7 +85,7 @@ proxy-groups: #!replace
     include-all: true
     exclude-filter: '(?i)Tailscale|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
   - name: 手动选择
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Fries.png
     type: select
     proxies:
       - 香港节点
@@ -238,18 +117,18 @@ proxy-groups: #!replace
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png
     type: select
     proxies: *common
-  - name: ChatGPT
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png
-    type: select
-    proxies: *common
-  - name: Gemini
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google.png
-    type: select
-    proxies: *common
   - name: AI服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png
     type: select
-    proxies: *common
+    proxies:
+      - 新加坡节点
+      - 手动选择
+      - 香港节点
+      - 美国节点
+      - 日本节点
+      - 台湾节点
+      - 自动选择
+      - DIRECT
   - name: TikTok
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png
     type: select
@@ -287,15 +166,23 @@ proxy-groups: #!replace
     type: select
     proxies: *common
   - name: Bahamut
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bahamut.png
     type: select
-    proxies: *common
+    proxies:
+      - 台湾节点
+      - 手动选择
+      - 香港节点
+      - 美国节点
+      - 新加坡节点
+      - 日本节点
+      - 自动选择
+      - DIRECT
   - name: 国外媒体
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png
     type: select
     proxies: *common
   - name: 国外电商
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://cdn.simpleicons.org/ebay
     type: select
     proxies: *common
   - name: PayPal
@@ -309,7 +196,15 @@ proxy-groups: #!replace
   - name: 苹果服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
     type: select
-    proxies: *common
+    proxies:
+      - DIRECT
+      - 手动选择
+      - 香港节点
+      - 美国节点
+      - 新加坡节点
+      - 日本节点
+      - 台湾节点
+      - 自动选择
   - name: 微软服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png
     type: select
@@ -383,31 +278,31 @@ rules: #!replace
   - DOMAIN-SUFFIX,netease.com,DIRECT
   - DST-PORT,3478,DIRECT
   # 4. 应用分流规则集（精选）
-  - RULE-SET,rp-Telegram,即时通讯
-  - RULE-SET,rp-Twitter,社交媒体
-  - RULE-SET,rp-Facebook,社交媒体
-  - RULE-SET,rp-Instagram,社交媒体
-  - RULE-SET,rp-GitHub,GitHub
-  - RULE-SET,rp-OpenAI,ChatGPT
-  - RULE-SET,rp-Gemini,Gemini
-  - RULE-SET,rp-Claude,AI服务
-  - RULE-SET,rp-YouTube,YouTube
-  - RULE-SET,rp-AppleTV,AppleTV+
-  - RULE-SET,rp-PayPal,PayPal
-  - RULE-SET,rp-Apple,苹果服务
-  - RULE-SET,rp-AppleDomain,苹果服务
-  - RULE-SET,rp-Microsoft,微软服务
-  - RULE-SET,rp-Google,谷歌服务
-  - RULE-SET,rp-TikTok,TikTok
-  - RULE-SET,rp-Netflix,Netflix
-  - RULE-SET,rp-Disney,DisneyPlus
-  - RULE-SET,rp-HBO,HBO
-  - RULE-SET,rp-PrimeVideo,PrimeVideo
-  - RULE-SET,rp-Emby,Emby
-  - RULE-SET,rp-Spotify,Spotify
-  - RULE-SET,rp-Bahamut,Bahamut
-  - RULE-SET,rp-Speedtest,测速工具
-  - RULE-SET,rp-SteamCN,游戏平台
+  # 应用分流：全部改用 Stash 内置 GEOSITE（随内核更新，不依赖第三方 URL）
+  - GEOSITE,telegram,即时通讯
+  - GEOSITE,twitter,社交媒体
+  - GEOSITE,facebook,社交媒体
+  - GEOSITE,instagram,社交媒体
+  - GEOSITE,github,GitHub
+  - GEOSITE,openai,AI服务
+  - GEOSITE,anthropic,AI服务
+  - GEOSITE,category-ai-!cn,AI服务
+  - GEOSITE,google-gemini,AI服务
+  - GEOSITE,youtube,YouTube
+  - GEOSITE,apple-tvplus,AppleTV+
+  - GEOSITE,paypal,PayPal
+  - GEOSITE,apple,苹果服务
+  - GEOSITE,microsoft,微软服务
+  - GEOSITE,google,谷歌服务
+  - GEOSITE,tiktok,TikTok
+  - GEOSITE,netflix,Netflix
+  - GEOSITE,disney,DisneyPlus
+  - GEOSITE,hbo,HBO
+  - GEOSITE,primevideo,PrimeVideo
+  - GEOSITE,category-emby,Emby
+  - GEOSITE,spotify,Spotify
+  - GEOSITE,bahamut,Bahamut
+  - GEOSITE,category-speedtest,测速工具
   # Steam 下载 CDN 直连：必须优先于 Steam/游戏平台规则，避免下载流量走代理
   - RULE-SET,rp-SteamCDN,DIRECT
   # 补齐小火箭分组逻辑：Steam / 游戏平台 / 国外媒体 分别由 GEOSITE 分流
