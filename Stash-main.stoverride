@@ -38,7 +38,7 @@ rule-providers: #!replace
 proxy-groups: #!replace
   # Tailscale 专用选择组：可选择走 Tailnet 或直连
   - name: Tailscale访问
-    icon: https://cdn.simpleicons.org/tailscale/34495E
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Cat.png
     type: select
     proxies:
       - Tailscale
@@ -182,7 +182,7 @@ proxy-groups: #!replace
     type: select
     proxies: *common
   - name: 国外电商
-    icon: https://cdn.simpleicons.org/ebay
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Amazon.png
     type: select
     proxies: *common
   - name: PayPal
