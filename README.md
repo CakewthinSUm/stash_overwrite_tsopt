@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/CakewthinSUm/stash_overwrite_tsopt/main/Stash-
 - **地区智能选路**：香港、台湾、新加坡、日本、美国、韩国六个 `smart` 组按真实流量自动选节点，另有 `其他地区` 兜底；`自动选择` 采用反向筛选，自动纳入所有正常地区节点。
 - **应用分流**：主体使用 Stash 内置 GEOSITE（随内核更新），覆盖 Telegram、Twitter/Facebook/Instagram、GitHub、OpenAI/Claude/Gemini（合并到 `AI服务`，默认新加坡）、YouTube、Netflix、Disney+、HBO、PrimeVideo、Apple TV+、Spotify、Bahamut（默认台湾）、PayPal、Microsoft、Google、TikTok、Steam、Emby、游戏平台、测速工具、国外媒体、国外电商等。
 - **Steam / 游戏下载直连**：Steam 下载 CDN（`Steam_CDN.list`）优先于 `GEOSITE,steam` 命中，避免国区下载走代理；另有游戏平台下载 CDN / Tracker 直连。
-- **Apple.list 补充**：上游 `Apple.list` 提供 GEOSITE 无法覆盖的 USER-AGENT 和 IP 段规则，走 `苹果服务` 组（默认 DIRECT）；APNs 推送单独走 `苹果推送` 组。
+- **Apple / APNs**：`Apple.list` 提供 GEOSITE 无法覆盖的 USER-AGENT 和 IP 段规则，走 `苹果服务` 组（默认 DIRECT）；APNs 域名与 Apple 官方推送 IP 段使用 dler-io 上游规则集，另有 TCP 5223 端口兜底，走 `苹果推送` 组。
 - **统一策略组模板**：20 个应用组共用一份成员列表（YAML 锚点），统一为 `手动选择 → 香港 → 美国 → 新加坡 → 日本 → 台湾 → 自动选择 → DIRECT`；AI服务和Bahamut因特殊默认单独定义。
 
 ## 覆写合并方式
@@ -39,6 +39,7 @@ https://raw.githubusercontent.com/CakewthinSUm/stash_overwrite_tsopt/main/Stash-
 |---|---|---|
 | 应用分流（主体） | Stash 内置 GEOSITE（v2fly/domain-list-community 维护） | 随 Stash 更新 |
 | Apple USER-AGENT / IP 补充 | [LingJingMaster/Shadowrocket-Rules](https://github.com/LingJingMaster/Shadowrocket-Rules) `Apple.list` | `main`，每日刷新 |
+| APNs 推送域名与 IP 段 | [dler-io/Rules](https://github.com/dler-io/Rules) `Apple Push.yaml` | `main`，每日刷新 |
 | Steam CDN 直连 | [Aethersailor/Custom_OpenClash_Rules](https://github.com/Aethersailor/Custom_OpenClash_Rules) `Steam_CDN.list` | `main`，每日刷新 |
 
 ## 导入后检查清单
@@ -51,6 +52,6 @@ https://raw.githubusercontent.com/CakewthinSUm/stash_overwrite_tsopt/main/Stash-
 ## 已知限制
 
 - `DST-PORT,3478,DIRECT` 与 `DST-PORT,5223,苹果推送` 是全局端口规则，可能影响同端口的其他连接。
-- `DOMAIN-SUFFIX,akadns.net,苹果推送` 覆盖范围较广（Akamai 域名），可能误伤其他使用 Akamai 的服务；这是遵循 Stash 官方 APNs 建议的权衡。
+- APNs 推送依赖上游 dler-io 规则集，其 `apple.com.edgekey.net` 等 Akamai 域名规则仍可能误伤少量非推送流量。
 - Stash iOS 3.6+ 默认对 Tailnet 域名和 100.64/10 自动路由，优先级高于配置文件规则；`Tailscale访问` 组选 DIRECT 在低版本才完全生效。
 - 覆写的 `name` / `desc` / `icon` 仅用于界面展示，不参与配置合并，不会改变基础订阅的名称。

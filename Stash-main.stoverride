@@ -29,6 +29,12 @@ rule-providers: #!replace
     format: text
     url: https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main/Apple.list
     interval: 86400
+  # APNs 推送：dler-io 活跃维护的上游规则集，跟随 Apple 官方 IP 段更新
+  rp-APNs:
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/dler-io/Rules/main/Clash/Provider/Apple%20Push.yaml
+    interval: 86400
   # Steam 下载 CDN 直连（上游活跃维护），必须优先于 steam 规则
   rp-SteamCDN:
     behavior: classical
@@ -258,23 +264,10 @@ rules: #!replace
   - IP-CIDR6,fd7a:115c:a1e0::/48,Tailscale访问,no-resolve
   # 内网/局域网地址直连，避免落到 MATCH 走代理
   - GEOIP,LAN,DIRECT,no-resolve
-  # 2. APNs（按 Stash 官方 FAQ：推送走代理；域名 + 关键词 + IP 段）
-  - DOMAIN-SUFFIX,push.apple.com,苹果推送
-  - DOMAIN-SUFFIX,push.apple.com.cn,苹果推送
-  - DOMAIN-KEYWORD,courier.push,苹果推送
-  - DOMAIN-SUFFIX,akadns.net,苹果推送
-  - DOMAIN-KEYWORD,apple.com.edgekey.net,苹果推送
+  # 2. APNs（按 Stash 官方 FAQ：推送走代理）
+  # 域名与 Apple 官方 IP 段使用 dler-io 上游规则集，避免手动维护 IP 列表
+  - RULE-SET,rp-APNs,苹果推送
   - DST-PORT,5223,苹果推送
-  # Apple 官方 APNs IP 段（推送走这些 IP，光靠域名匹配不到）
-  - IP-CIDR,17.249.0.0/16,苹果推送,no-resolve
-  - IP-CIDR,17.252.0.0/16,苹果推送,no-resolve
-  - IP-CIDR,17.57.144.0/22,苹果推送,no-resolve
-  - IP-CIDR,17.188.128.0/18,苹果推送,no-resolve
-  - IP-CIDR,17.188.20.0/23,苹果推送,no-resolve
-  - IP-CIDR6,2620:149:a44::/48,苹果推送,no-resolve
-  - IP-CIDR6,2403:300:a42::/48,苹果推送,no-resolve
-  - IP-CIDR6,2403:300:a51::/48,苹果推送,no-resolve
-  - IP-CIDR6,2a01:b740:a42::/48,苹果推送,no-resolve
   # 3. 直连：自建/UU
   - DOMAIN-SUFFIX,mytunnel.org,DIRECT
   - DOMAIN-SUFFIX,uu.163.com,DIRECT
