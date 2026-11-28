@@ -211,7 +211,7 @@ proxy-groups: #!replace
     type: select
     proxies: *common
   - name: 游戏平台
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Game.png
     type: select
     proxies: *common
   - name: Steam
