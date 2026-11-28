@@ -160,6 +160,7 @@ rule-providers: #!replace
 proxy-groups: #!replace
   # Tailscale 专用选择组：可选择走 Tailnet 或直连
   - name: Tailscale访问
+    icon: https://cdn.simpleicons.org/tailscale/34495E
     type: select
     proxies:
       - Tailscale
@@ -206,7 +207,7 @@ proxy-groups: #!replace
     include-all: true
     exclude-filter: '(?i)Tailscale|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
   - name: 手动选择
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Fries.png
     type: select
     proxies:
       - 香港节点
@@ -287,15 +288,15 @@ proxy-groups: #!replace
     type: select
     proxies: *common
   - name: Bahamut
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Bahamut.png
     type: select
     proxies: *common
   - name: 国外媒体
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ForeignMedia.png
     type: select
     proxies: *common
   - name: 国外电商
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    icon: https://cdn.simpleicons.org/ebay
     type: select
     proxies: *common
   - name: PayPal
@@ -309,7 +310,15 @@ proxy-groups: #!replace
   - name: 苹果服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
     type: select
-    proxies: *common
+    proxies:
+      - DIRECT
+      - 手动选择
+      - 香港节点
+      - 美国节点
+      - 新加坡节点
+      - 日本节点
+      - 台湾节点
+      - 自动选择
   - name: 微软服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png
     type: select
