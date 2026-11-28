@@ -21,7 +21,7 @@ proxies:
     # 让 Tailscale 直接用本地网络打洞。以后若给这个节点加 dialer-proxy，记得同时打开它。
     # direct-peer-udp: true
 
-rule-providers:
+rule-providers: #!replace
   rp-Telegram:
     behavior: classical
     format: yaml
@@ -117,11 +117,11 @@ rule-providers:
     format: yaml
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Speedtest/Speedtest.yaml
     interval: 86400
-  # 苹果服务：引用 CakewthinSUm/Shadowrocket-Rules 的 Apple.list（含 USER-AGENT / IP 段，Stash 支持）
+  # 苹果服务：引用上游 LingJingMaster/Shadowrocket-Rules 的 Apple.list（含 USER-AGENT / IP 段，Stash 支持）
   rp-Apple:
     behavior: classical
     format: text
-    url: https://raw.githubusercontent.com/CakewthinSUm/Shadowrocket-Rules/refs/heads/main/Apple.list
+    url: https://raw.githubusercontent.com/LingJingMaster/Shadowrocket-Rules/refs/heads/main/Apple.list
     interval: 86400
   # 域名部分仍用 blackmatrix7 Apple_Domain.yaml（Clash domain 格式，1550 条）
   rp-AppleDomain:
@@ -149,6 +149,13 @@ rule-providers:
     format: yaml
     url: https://cdn.jsdelivr.net/gh/blackmatrix7/ios_rule_script@master/rule/Clash/Emby/Emby.yaml
     interval: 86400
+  # Steam 下载 CDN：直接引用 Aethersailor/Custom_OpenClash_Rules 的 .list 源，
+  # 用 classical+text 兼容 Stash（官方文档明确支持该组合）；必须在 Steam/游戏平台规则之前命中。
+  rp-SteamCDN:
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/Aethersailor/Custom_OpenClash_Rules/refs/heads/main/rule/Steam_CDN.list
+    interval: 86400
 
 proxy-groups: #!replace
   # Tailscale 专用选择组：可选择走 Tailnet 或直连
@@ -161,43 +168,43 @@ proxy-groups: #!replace
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Hong_Kong.png
     type: smart
     include-all: true
-    filter: '🇭🇰|Hong Kong|HongKong|香港|\bHK'
+    filter: '(?i)🇭🇰|Hong Kong|HongKong|香港|\bHK'
   - name: 台湾节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taiwan.png
     type: smart
     include-all: true
-    filter: '🇹🇼|Taiwan|Taipei|台湾|\bTW'
+    filter: '(?i)🇹🇼|Taiwan|Taipei|台湾|\bTW'
   - name: 新加坡节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Singapore.png
     type: smart
     include-all: true
-    filter: '🇸🇬|Singapore|新加坡|\bSG'
+    filter: '(?i)🇸🇬|Singapore|新加坡|\bSG'
   - name: 日本节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Japan.png
     type: smart
     include-all: true
-    filter: '🇯🇵|Japan|日本|\bJP'
+    filter: '(?i)🇯🇵|Japan|日本|\bJP'
   - name: 美国节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png
     type: smart
     include-all: true
-    filter: '🇺🇸|United States|美国|\bUS'
+    filter: '(?i)🇺🇸|United States|美国|\bUS'
   - name: 韩国节点
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Korea.png
     type: smart
     include-all: true
-    filter: '🇰🇷|Korea|韩国|\bKR'
+    filter: '(?i)🇰🇷|Korea|韩国|\bKR'
   # 兜住没被上面地区组匹配到的节点；顺带排除 Tailscale 节点和机场的 info 假节点
   - name: 其他地区
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Global.png
     type: smart
     include-all: true
-    exclude-filter: '🇭🇰|Hong Kong|HongKong|香港|\bHK|🇹🇼|Taiwan|Taipei|台湾|\bTW|🇸🇬|Singapore|新加坡|\bSG|🇯🇵|Japan|日本|\bJP|🇺🇸|United States|美国|\bUS|🇰🇷|Korea|韩国|\bKR|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
+    exclude-filter: '(?i)🇭🇰|Hong Kong|HongKong|香港|\bHK|🇹🇼|Taiwan|Taipei|台湾|\bTW|🇸🇬|Singapore|新加坡|\bSG|🇯🇵|Japan|日本|\bJP|🇺🇸|United States|美国|\bUS|🇰🇷|Korea|韩国|\bKR|TS-内网|Tailscale|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
   - name: 自动选择
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Auto.png
     type: smart
     include-all: true
-    filter: '🇭🇰|🇹🇼|🇸🇬|🇯🇵|🇺🇸|🇰🇷'
+    exclude-filter: '(?i)Tailscale|TS-内网|剩余|流量|到期|过期|套餐|重置|官网|客服|订阅|Traffic|Expire'
   - name: 手动选择
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
     type: select
@@ -214,7 +221,7 @@ proxy-groups: #!replace
   - name: 即时通讯
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Telegram.png
     type: select
-    proxies:
+    proxies: &common
       - 手动选择
       - 香港节点
       - 美国节点
@@ -226,279 +233,99 @@ proxy-groups: #!replace
   - name: 社交媒体
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Twitter.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: GitHub
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/GitHub.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: ChatGPT
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png
     type: select
-    proxies:
-      - 手动选择
-      - 美国节点
-      - 香港节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Gemini
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: AI服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/ChatGPT.png
     type: select
-    proxies:
-      - 手动选择
-      - 美国节点
-      - 香港节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: TikTok
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/TikTok.png
     type: select
-    proxies:
-      - 手动选择
-      - 美国节点
-      - 香港节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: AppleTV+
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: YouTube
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/YouTube.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Netflix
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Netflix.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: DisneyPlus
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Disney.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: HBO
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/HBO.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: PrimeVideo
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Netflix.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Emby
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Emby.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Spotify
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Spotify.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Bahamut
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
     type: select
-    proxies:
-      - 手动选择
-      - 台湾节点
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 国外媒体
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
     type: select
-    proxies:
-      - 手动选择
-      - 新加坡节点
-      - 香港节点
-      - 美国节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
+  - name: 国外电商
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Proxy.png
+    type: select
+    proxies: *common
   - name: PayPal
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/PayPal.png
     type: select
-    proxies:
-      - 手动选择
-      - 美国节点
-      - 香港节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 谷歌服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Google.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 苹果服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Apple.png
     type: select
-    proxies:
-      - DIRECT
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
+    proxies: *common
   - name: 微软服务
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Microsoft.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 游戏平台
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: Steam
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Steam.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 测速工具
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Speedtest.png
     type: select
-    proxies:
-      - 手动选择
-      - 香港节点
-      - 美国节点
-      - 新加坡节点
-      - 日本节点
-      - 台湾节点
-      - 自动选择
-      - DIRECT
+    proxies: *common
   - name: 漏网之鱼
     icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Direct.png
     type: select
@@ -581,6 +408,13 @@ rules: #!replace
   - RULE-SET,rp-Bahamut,Bahamut
   - RULE-SET,rp-Speedtest,测速工具
   - RULE-SET,rp-SteamCN,游戏平台
+  # Steam 下载 CDN 直连：必须优先于 Steam/游戏平台规则，避免下载流量走代理
+  - RULE-SET,rp-SteamCDN,DIRECT
+  # 补齐小火箭分组逻辑：Steam / 游戏平台 / 国外媒体 分别由 GEOSITE 分流
+  - GEOSITE,steam,Steam
+  - GEOSITE,category-games,游戏平台
+  - GEOSITE,category-entertainment,国外媒体
+  - GEOSITE,category-ecommerce,国外电商
 
   # 兜底：国内直连，其余走漏网之鱼
   - GEOIP,CN,DIRECT
