@@ -1,13 +1,14 @@
 # ============================================================
 #  Stash 分流覆写 (.stoverride) · Tailscale 优化版
 #  基础配置：机场 Clash 订阅（提供节点池）
-#  37 个策略组 + 26 个规则集；Apple 使用上游 Apple.list + blackmatrix7 域名集
+#  35 个策略组；应用分流使用 Stash 内置 GEOSITE，仅 Apple.list 与 Steam CDN 为远程规则集
 #  Stash 5.1 beta+（smart 组为 5.1 新增，5.0 及以下会加载失败）
 # ============================================================
 name: Stash 分流覆写 · Tailscale 优化版
+icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Qure.png
 desc: |-
-  37 组分流，地区组 smart 智能选路（需 Stash 5.1 beta+）。
-  内置 Tailscale 直连访问，应用组统一手动选择；Steam CDN 直连。
+  35 组分流，地区组 smart 智能选路（需 Stash 5.1 beta+）。
+  内置 Tailscale 直连访问，应用分流使用内置 GEOSITE，Steam CDN 直连。
 
 proxies:
   - name: Tailscale
@@ -38,7 +39,7 @@ rule-providers: #!replace
 proxy-groups: #!replace
   # Tailscale 专用选择组：可选择走 Tailnet 或直连
   - name: Tailscale访问
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Cat.png
+    icon: https://tailscale.com/favicon.png
     type: select
     proxies:
       - Tailscale
