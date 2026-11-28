@@ -256,6 +256,8 @@ rules: #!replace
   - DOMAIN-SUFFIX,ts.net,Tailscale访问
   - IP-CIDR,100.64.0.0/10,Tailscale访问,no-resolve
   - IP-CIDR6,fd7a:115c:a1e0::/48,Tailscale访问,no-resolve
+  # 内网/局域网地址直连，避免落到 MATCH 走代理
+  - GEOIP,LAN,DIRECT,no-resolve
   # 2. APNs（按 Stash 官方 FAQ：推送走代理；域名 + 关键词 + IP 段）
   - DOMAIN-SUFFIX,push.apple.com,苹果推送
   - DOMAIN-SUFFIX,push.apple.com.cn,苹果推送
@@ -292,6 +294,8 @@ rules: #!replace
   - GEOSITE,youtube,YouTube
   - GEOSITE,apple-tvplus,AppleTV+
   - GEOSITE,paypal,PayPal
+  # Apple.list 含 USER-AGENT / IP 段（GEOSITE 无法覆盖），APNs 域名已在前面优先命中
+  - RULE-SET,rp-Apple,苹果服务
   - GEOSITE,apple,苹果服务
   - GEOSITE,microsoft,微软服务
   - GEOSITE,google,谷歌服务
@@ -304,6 +308,9 @@ rules: #!replace
   - GEOSITE,spotify,Spotify
   - GEOSITE,bahamut,Bahamut
   - GEOSITE,category-speedtest,测速工具
+  # 游戏下载 CDN / Tracker 直连：避免大流量下载走代理
+  - GEOSITE,category-game-platforms-download,DIRECT
+  - GEOSITE,category-public-tracker,DIRECT
   # Steam 下载 CDN 直连：必须优先于 Steam/游戏平台规则，避免下载流量走代理
   - RULE-SET,rp-SteamCDN,DIRECT
   # 补齐小火箭分组逻辑：Steam / 游戏平台 / 国外媒体 分别由 GEOSITE 分流
