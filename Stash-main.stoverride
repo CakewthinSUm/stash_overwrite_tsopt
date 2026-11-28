@@ -71,7 +71,7 @@ proxy-groups: #!replace
     include-all: true
     filter: '(?i)🇯🇵|Japan|日本|\bJP'
   - name: 美国节点
-    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/US.png
+    icon: https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/United_States.png
     type: smart
     include-all: true
     filter: '(?i)🇺🇸|United States|美国|\bUS'
