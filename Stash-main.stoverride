@@ -1,13 +1,13 @@
 # ============================================================
-#  小火箭逻辑完整迁移 · Stash 覆写 (.stoverride)
-#  基础配置：机场 Clash 订阅（提供 63 节点）
-#  36 组结构 + 25 个精选规则集（Apple 部分用 Shadowrocket-Rules 的 Apple.list + blackmatrix7 域名集）
-#  Stash 5.1 beta+（smart 组为 5.1 新增，5.0 及以下会加载失败）；规则集全部实测 HTTP 200
+#  Stash 分流覆写 (.stoverride) · Tailscale 优化版
+#  基础配置：机场 Clash 订阅（提供节点池）
+#  37 个策略组 + 26 个规则集；Apple 使用上游 Apple.list + blackmatrix7 域名集
+#  Stash 5.1 beta+（smart 组为 5.1 新增，5.0 及以下会加载失败）
 # ============================================================
-name: 小火箭逻辑迁移
+name: Stash 分流覆写 · Tailscale 优化版
 desc: |-
-  完整搬小火箭 34 组分流逻辑；地区组 smart 智能选路（需 Stash 5.1 beta+）
-  应用组默认手动选择；精选规则集控制内存占用
+  37 组分流，地区组 smart 智能选路（需 Stash 5.1 beta+）。
+  内置 Tailscale 直连访问，应用组统一手动选择；Steam CDN 直连。
 
 proxies:
   - name: Tailscale
