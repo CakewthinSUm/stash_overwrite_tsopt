@@ -24,7 +24,7 @@ https://raw.githubusercontent.com/CakewthinSUm/stash_overwrite_tsopt/main/Stash-
 - **地区智能选路**：香港、台湾、新加坡、日本、美国、韩国六个 `smart` 组按真实流量自动选节点，另有 `其他地区` 兜底；`自动选择` 采用反向筛选，自动纳入所有正常地区节点。
 - **应用分流**：主体使用 Stash 内置 GEOSITE（随内核更新），覆盖 Telegram、Twitter/Facebook/Instagram、GitHub、OpenAI/Claude/Gemini（合并到 `AI服务`，默认新加坡）、YouTube、Netflix、Disney+、HBO、PrimeVideo、Apple TV+、Spotify、Bahamut（默认台湾）、PayPal、Microsoft、Google、TikTok、Steam、Emby、游戏平台、测速工具、国外媒体、国外电商等。
 - **Steam / 游戏下载直连**：Steam 下载 CDN（`Steam_CDN.list`）优先于 `GEOSITE,steam` 命中，避免国区下载走代理；另有游戏平台下载 CDN / Tracker 直连。
-- **Apple / APNs**：`Apple.list` 提供 GEOSITE 无法覆盖的 USER-AGENT 和 IP 段规则，走 `苹果服务` 组（默认 DIRECT）；APNs 域名与 Apple 官方推送 IP 段使用 dler-io 上游规则集，加 `push.apple.com.cn` 与 TCP 5223 端口兜底，走 `苹果推送` 组。
+- **Apple / APNs**：`Apple.list` 提供 GEOSITE 无法覆盖的 USER-AGENT 和 IP 段规则，走 `苹果服务` 组（默认 DIRECT）；APNs 域名与 Apple 官方推送 IP 段使用 dler-io 上游规则集，另有 TCP 5223 端口兜底，走 `苹果推送` 组。
 - **统一策略组模板**：20 个应用组共用一份成员列表（YAML 锚点），统一为 `手动选择 → 香港 → 美国 → 新加坡 → 日本 → 台湾 → 自动选择 → DIRECT`；AI服务和Bahamut因特殊默认单独定义。
 
 ## 覆写合并方式

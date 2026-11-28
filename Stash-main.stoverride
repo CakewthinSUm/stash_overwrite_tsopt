@@ -267,7 +267,6 @@ rules: #!replace
   # 2. APNs（按 Stash 官方 FAQ：推送走代理）
   # 域名与 Apple 官方 IP 段使用 dler-io 上游规则集，避免手动维护 IP 列表
   - RULE-SET,rp-APNs,苹果推送
-  - DOMAIN-SUFFIX,push.apple.com.cn,苹果推送
   - DST-PORT,5223,苹果推送
   # 3. 直连：自建/UU
   - DOMAIN-SUFFIX,mytunnel.org,DIRECT
